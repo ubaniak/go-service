@@ -9,7 +9,7 @@ type Container struct {
 	registry map[string]interface{}
 }
 
-func New() *Container {
+func NewContainer() *Container {
 	return &Container{
 		registry: make(map[string]interface{}),
 	}
