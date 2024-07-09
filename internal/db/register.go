@@ -1,6 +1,6 @@
 package db
 
-func Build() (*ConnectionRegistry, error) {
+func Register() (*ConnectionRegistry, error) {
 	r := NewConnectionRegistry()
 
 	sqlite, err := NewConnectionBuilder().SetDriver(SqLite).SetDatabase("test.db").Build()
