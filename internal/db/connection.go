@@ -9,8 +9,16 @@ import (
 	"gorm.io/gorm"
 )
 
+type DBDriver int
+
+const (
+	MySql DBDriver = iota
+	Postgres
+	SqLite
+)
+
 type connectionBuilder struct {
-	driver   string
+	driver   DBDriver
 	host     string
 	port     string
 	user     string
@@ -18,11 +26,11 @@ type connectionBuilder struct {
 	database string
 }
 
-func New() *connectionBuilder {
+func NewConnectionBuilder() *connectionBuilder {
 	return &connectionBuilder{}
 }
 
-func (c *connectionBuilder) SetDriver(d string) *connectionBuilder {
+func (c *connectionBuilder) SetDriver(d DBDriver) *connectionBuilder {
 	c.driver = d
 	return c
 }
@@ -51,16 +59,14 @@ func (c *connectionBuilder) Build() (*gorm.DB, error) {
 	var dsn string
 	var dialector gorm.Dialector
 	switch c.driver {
-	case "mysql":
+	case MySql:
 		dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", c.user, c.password, c.host, c.port, c.database)
 		dialector = mysql.Open(dsn)
-	case "postgres":
+	case Postgres:
 		dsn = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", c.host, c.port, c.user, c.password, c.database)
 		dialector = postgres.Open(dsn)
-	case "sqlite":
-		dialector = sqlite.Open(dsn)
-	default:
-		return nil, fmt.Errorf("unsupported driver: %s", c.driver)
+	case SqLite:
+		dialector = sqlite.Open(c.database)
 	}
 
 	db, err := gorm.Open(dialector, &gorm.Config{})
