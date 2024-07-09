@@ -1,8 +1,11 @@
 package app
 
-import "go-service/internal/app/users"
+import (
+	"go-service/internal/app/users"
+	"go-service/internal/db"
+)
 
-func Register() *Container {
+func Register(db *db.ConnectionRegistry) *Container {
 	c := NewContainer()
 	c.Register(users.ServiceName, users.New("thin"))
 
