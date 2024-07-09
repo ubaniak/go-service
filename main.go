@@ -14,7 +14,7 @@ func main() {
 
 	c := app.Register()
 
-	err := s.WithMiddleware(handlers.Middleware()...).WithRoutes(handlers.Routers(c)...).Bootstrap(ctx)
+	err := s.WithMiddleware(handlers.Middleware()...).WithRoutes(handlers.Routes(c)...).Bootstrap(ctx)
 	if err != nil {
 		panic(err)
 	}

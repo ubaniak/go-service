@@ -11,7 +11,7 @@ func Middleware() []server.MiddlewareFunc {
 	return m
 }
 
-func Routers(c *app.Container) []server.RouteFunc {
+func Routes(c *app.Container) []server.RouteFunc {
 	var r []server.RouteFunc = []server.RouteFunc{}
 	var u users.UserService
 	err := c.Get(users.ServiceName, &u)
