@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"go-service/internal/app"
-	"go-service/internal/db"
 	"go-service/internal/handlers"
 	"go-service/internal/server"
 )
@@ -11,15 +9,9 @@ import (
 func main() {
 
 	ctx := context.Background()
-	s := server.New("8080")
+	s := server.New()
 
-	db, err := db.Register()
-	if err != nil {
-		panic(err)
-	}
-	c := app.Register(db)
-
-	err = s.WithMiddleware(handlers.Middleware()...).WithRoutes(handlers.Routes(c)...).Bootstrap(ctx)
+	err := s.WithMiddleware(handlers.Middleware()...).WithRoutes(handlers.Routes()...).Run(ctx)
 	if err != nil {
 		panic(err)
 	}

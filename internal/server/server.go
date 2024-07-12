@@ -10,10 +10,15 @@ type server struct {
 	routes     []RouteFunc
 }
 
-func New(port string) *server {
+func New() *server {
 	return &server{
-		port: port,
+		port: "8080",
 	}
+}
+
+func (s *server) WithPort(p string) *server {
+	s.port = p
+	return s
 }
 
 func (s *server) WithMiddleware(m ...MiddlewareFunc) *server {
@@ -26,7 +31,7 @@ func (s *server) WithRoutes(r ...RouteFunc) *server {
 	return s
 }
 
-func (s *server) Bootstrap(ctx context.Context) error {
+func (s *server) Run(ctx context.Context) error {
 	r := setupRouter()
 
 	addMiddleWare(ctx, r, s.middleware...)

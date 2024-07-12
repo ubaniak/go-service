@@ -1,21 +1,21 @@
-package app
+package dependency
 
 import (
 	"errors"
 	"reflect"
 )
 
-type Container struct {
+type Registry struct {
 	registry map[string]interface{}
 }
 
-func NewContainer() *Container {
-	return &Container{
+func NewRegistry() *Registry {
+	return &Registry{
 		registry: make(map[string]interface{}),
 	}
 }
 
-func (c *Container) Register(name string, i interface{}) error {
+func (c *Registry) Register(name string, i interface{}) error {
 	_, ok := c.registry[name]
 	if ok {
 		return errors.New("dependency already registered")
@@ -24,7 +24,7 @@ func (c *Container) Register(name string, i interface{}) error {
 	return nil
 }
 
-func (c *Container) Get(name string, i interface{}) error {
+func (c *Registry) Get(name string, i interface{}) error {
 	s, ok := c.registry[name]
 	if !ok {
 		return errors.New("dependency not registered")
