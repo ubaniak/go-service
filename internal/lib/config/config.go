@@ -1,9 +1,13 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"go-service/internal/settings"
 
-func Load(path string) (*Config, error) {
-	var config Config
+	"github.com/spf13/viper"
+)
+
+func Load(path string) (*settings.Config, error) {
+	var config settings.Config
 	viper.AddConfigPath(path)
 	viper.SetConfigFile(".env")
 	viper.SetConfigType("env")

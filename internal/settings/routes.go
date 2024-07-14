@@ -1,4 +1,4 @@
-package handlers
+package settings
 
 import (
 	"go-service/internal/server"
