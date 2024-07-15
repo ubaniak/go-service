@@ -4,6 +4,7 @@ import (
 	"context"
 	"go-service/internal/lib/config"
 	"go-service/internal/server"
+	"go-service/internal/settings"
 )
 
 func main() {
@@ -16,9 +17,11 @@ func main() {
 		panic(err)
 	}
 
-	err = s.WithPort(config.Port).Run(ctx)
+	middleware := settings.Middleware()
+	routes := settings.Routes()
 
-	// // err = s.WithPort(config.Port).WithMiddleware(handlers.Middleware()...).WithRoutes(handlers.Routes()...).Run(ctx)
+	err = s.WithPort(config.Port).WithMiddleware(middleware...).WithRoutes(routes...).Run(ctx)
+
 	if err != nil {
 		panic(err)
 	}
